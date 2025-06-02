@@ -1,9 +1,31 @@
+use reqwest::Response;
 use wasm_minimal_protocol::*;
 
 // Only necessary when using cbor for passing arguments.
-use ciborium::{de::from_reader, ser::into_writer};
+use serde::{Deserialize, Serialize, self};
 
 initiate_protocol!();
+
+// #[derive(Debug, Deserialize, Serialize)]
+// #[serde(rename_all = "camelCase")]
+// struct CharacterSheet {
+//     id: u32,
+//     decorations
+// }
+
+impl From<Response> for String {
+    fn from(response: Response) -> String {
+        "Reqwest has failed to fetch".to_owned()
+    }
+}
+#[wasm_func]
+pub fn fetch_dnd_beyond_character(character_id: &[u8]) -> Result<Vec<u8>, String> {
+    let dnd_beyond = "https://character-service.dndbeyond.com/character/v5/character/";
+    let result =
+        reqwest::blocking::get([dnd_beyond, character_id.into()].concat()).map_err(|| "Reqwest has failed")?;
+    character_id.into()
+}
+
 
 #[wasm_func]
 pub fn hello() -> Vec<u8> {

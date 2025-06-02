@@ -1,5 +1,5 @@
 [package]
-name = "hello"
+name = "dndbeyond_playerloader"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,9 +8,9 @@ crate-type = ["cdylib"]
 
 [dependencies]
 # Same package and version as Typst uses.
-ciborium = "0.2.1"
 serde = "1.0"
-
+reqwest = { version = "0.12.18", features = ["blocking"] }
+toml = "0.8.22"
 
 [dependencies.wasm-minimal-protocol]
 git = "https://github.com/astrale-sharp/wasm-minimal-protocol"
